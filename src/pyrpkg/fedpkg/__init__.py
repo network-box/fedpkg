@@ -68,13 +68,13 @@ class Commands(pyrpkg.Commands):
         self.secondary_arch = {'sparc': ['silo', 'prtconf', 'lssbus', 'afbinit',
                                          'piggyback', 'xorg-x11-drv-sunbw2',
                                          'xorg-x11-drv-suncg14',
-                                         'xorg-x11-drv-suncg3', 
+                                         'xorg-x11-drv-suncg3',
                                          'xorg-x11-drv-suncg6',
-                                         'xorg-x11-drv-sunffb',  
+                                         'xorg-x11-drv-sunffb',
                                          'xorg-x11-drv-sunleo',
                                          'xorg-x11-drv-suntcx'],
-                               'ppc': ['ppc64-utils', 'yaboot'],                        
-                               'arm': ['xorg-x11-drv-omapfb'],                          
+                               'ppc': ['ppc64-utils', 'yaboot'],
+                               'arm': ['xorg-x11-drv-omapfb'],
                                's390': ['s390utils', 'openssl-ibmca', 'libica']}
 
         # New properties
