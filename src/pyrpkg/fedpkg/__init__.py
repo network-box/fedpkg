@@ -171,8 +171,8 @@ class Commands(pyrpkg.Commands):
         pyrpkg.Commands.import_srpm(self)
 
     @_check_newstyle_branches
-    def pull(self, rebase=False, norebase=False):
-        pyrpkg.Commands.pull(self, rebase, norebase)
+    def pull(self, *args, **kwargs):
+        pyrpkg.Commands.pull(self, *args, **kwargs)
 
     @_check_newstyle_branches
     def push(self):
