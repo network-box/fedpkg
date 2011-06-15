@@ -16,6 +16,40 @@ import offtrac
 import git
 import re
 
+# This check (decorator) can go away after a few months
+def _check_newstyle_branches(func):
+    """Check to see if the branches are "newstyle" or not.
+
+    Will raise and log an error leading the user to fix branches.
+    """
+
+    def checky(self, *args, **kwargs):
+        # First only work on the remotes we care about
+        fedpkg = 'pkgs.*\.fedoraproject\.org\/'
+        remotes = [remote.name for remote in self.repo.remotes if
+                   re.search(fedpkg, remote.url)]
+
+        # Now loop through the remotes and see if any of them have
+        # old style branch names
+        for remote in remotes:
+            # Check to see if the remote data matches the old style
+            # This regex looks at the ref name which should be
+            # "origin/f15/master or simliar.  This regex fills in the remote
+            # name we care about and attempts to find any fedora/epel/olpc
+            # branch that has the old style /master tail.
+            refsre = r'%s/(f\d\d/master|f\d/master|fc\d/master|' % remote
+            refsre += r'el\d/master|olpc\d/master)'
+            for ref in self.repo.refs:
+                if type(ref) == git.refs.RemoteReference and \
+                re.match(refsre, ref.name):
+                    self.log.error('This repo has old style branches but '
+                                   'upstream has converted to new style.\n'
+                                   'Please run /usr/libexec/fedpkg-fixbranches '
+                                   'to fix your repo.')
+                    raise pyrpkg.rpkgError('Unconverted branches')
+        return func(self, *args, **kwargs)
+    return(checky)
+
 class Commands(pyrpkg.Commands):
 
     def __init__(self, path, lookaside, lookasidehash, lookaside_cgi,
@@ -120,6 +154,24 @@ class Commands(pyrpkg.Commands):
             self._target = 'f%s-candidate' % branch_merge
         else:
             self._target = '%s-candidate' % self.branch_merge
+
+    # Other overloaded functions
+    # These are overloaded to throw in the check for newstyle branches
+    @_check_newstyle_branches
+    def import_srpm(self):
+        pyrpkg.Commands.import_srpm(self)
+
+    @_check_newstyle_branches
+    def pull(self, rebase=False, norebase=False):
+        pyrpkg.Commands.pull(self, rebase, norebase)
+
+    @_check_newstyle_branches
+    def push(self):
+        pyrpkg.Commands.push(self)
+
+    @_check_newstyle_branches
+    def build(self, *args, **kwargs):
+        pyrpkg.Commands.build(self, *args, **kwargs)
 
     # New functionality
     def _findmasterbranch(self):
