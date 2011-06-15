@@ -107,29 +107,33 @@ class Commands(pyrpkg.Commands):
         self._kojiconfig = self._orig_kojiconfig
 
     # Overloaded property loaders
+    @_check_newstyle_branches
     def load_rpmdefines(self):
         """Populate rpmdefines based on branch data"""
 
-        if self.branch_merge.startswith('f'):
+        # We only match the top level branch name exactly.
+        # Anything else is too dangerous and --dist should be used
+        # This regex works until after Fedora 99.
+        if re.match(r'f\d\d$', self.branch_merge):
             self.distval = self.branch_merge.split('f')[1]
             self.distvar = 'fedora'
             self.dist = 'fc%s' % self.distval
             self.mockconfig = 'fedora-%s-%s' % (self.distval, self.localarch)
             self.override = 'dist-f%s-override' % self.distval
-        elif self.branch_merge.startswith('el'):
+        # Works until RHEL 10
+        elif re.match(r'el\d$', self.branch_merge):
             self.distval = self.branch_merge.split('el')[1]
             self.distvar = 'rhel'
             self.dist = 'el%s' % self.distval
             self.mockconfig = 'epel-%s-%s' % (self.distval, self.localarch)
             self.override = 'dist-%sE-epel-override' % self.distval
-        elif self.branch_merge.startswith('olpc'):
+        elif re.match(r'olpc\d$', self.branch_merge):
             self.distval = self.branch_merge.split('olpc')[1]
             self.distvar = 'olpc'
             self.dist = 'olpc%s' % self.distval
             self.override = 'dist-olpc%s-override' % self.distval
-        # If we don't match one of the above, assume master or a branch of
         # master
-        else:
+        elif re.match(r'master$', self.branch_merge):
             self.distval = self._findmasterbranch()
             self.distvar = 'fedora'
             self.distshort = 'fc%s' % self.distval
@@ -137,6 +141,11 @@ class Commands(pyrpkg.Commands):
             self.target = 'dist-rawhide'
             self.mockconfig = 'fedora-devel-%s' % self.localarch
             self.override = None
+        # If we don't match one of the above, punt
+        else:
+            raise pyrpkg.rpkgError('Could not find the dist from branch name '
+                                   '%s\nPlease specify with --dist' %
+                                   self.branch_merge)
         self._rpmdefines = ["--define '_sourcedir %s'" % self.path,
                             "--define '_specdir %s'" % self.path,
                             "--define '_builddir %s'" % self.path,
