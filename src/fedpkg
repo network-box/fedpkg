@@ -22,10 +22,10 @@ parser = argparse.ArgumentParser(add_help=False)
 parser.add_argument('-c', '--config', help='Specify a config file to use',
                     default='/etc/rpkg/fedpkg.conf')
 
-args = parser.parse_known_args()[0]
+(args, other) = parser.parse_known_args()
 
 # Make sure we have a sane config file
-if not os.path.exists(args.config):
+if not os.path.exists(args.config) and not other[-1] in ['--help', '-h']:
     sys.stderr.write('Invalid config file %s\n' % args.config)
     sys.exit(1)
 
