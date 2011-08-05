@@ -180,7 +180,7 @@ class Commands(pyrpkg.Commands):
 
     @_check_newstyle_branches
     def build(self, *args, **kwargs):
-        pyrpkg.Commands.build(self, *args, **kwargs)
+        return(pyrpkg.Commands.build(self, *args, **kwargs))
 
     # New functionality
     def _findmasterbranch(self):
