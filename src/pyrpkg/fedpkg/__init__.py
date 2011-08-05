@@ -138,7 +138,7 @@ class Commands(pyrpkg.Commands):
             self.distvar = 'fedora'
             self.distshort = 'fc%s' % self.distval
             self.dist = 'fc%s' % self.distval
-            self.target = 'dist-rawhide'
+            self.target = 'rawhide'
             self.mockconfig = 'fedora-devel-%s' % self.localarch
             self.override = None
         # If we don't match one of the above, punt
@@ -212,13 +212,13 @@ class Commands(pyrpkg.Commands):
             # We may not have Fedoras.  Find out what rawhide target does.      
             try:
                 rawhidetarget = self.anon_kojisession.getBuildTarget(
-                                                              'dist-rawhide')
+                                                              'rawhide')
             except:
                 # We couldn't hit koji, bail.                                   
                 raise pyrpkg.rpkgError('Unable to query koji to find rawhide \
                                        target')
             desttag = rawhidetarget['dest_tag_name']
-            return desttag.replace('dist-f', '')
+            return desttag.replace('f', '')
 
     def mockbuild(self, mockargs=[]):
         """Build the package in mock, using mockargs
