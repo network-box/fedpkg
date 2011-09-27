@@ -201,7 +201,7 @@ class Commands(pyrpkg.Commands):
                 # part of the ref name and returning the rest.  This may
                 # fail if somebody names a remote with / in the name...
                 if re.match(branchre, ref.name.split('/', 1)[1]):
-                    # Add just the simple f## part to the list                  
+                    # Add just the simple f## part to the list
                     fedoras.append(ref.name.split('/')[1])
         if fedoras:
             # Sort the list
@@ -209,12 +209,12 @@ class Commands(pyrpkg.Commands):
             # Start with the last item, strip the f, add 1, return it.
             return(int(fedoras[-1].strip('f')) + 1)
         else:
-            # We may not have Fedoras.  Find out what rawhide target does.      
+            # We may not have Fedoras.  Find out what rawhide target does.
             try:
                 rawhidetarget = self.anon_kojisession.getBuildTarget(
                                                               'rawhide')
             except:
-                # We couldn't hit koji, bail.                                   
+                # We couldn't hit koji, bail.
                 raise pyrpkg.rpkgError('Unable to query koji to find rawhide \
                                        target')
             desttag = rawhidetarget['dest_tag_name']
@@ -247,9 +247,9 @@ class Commands(pyrpkg.Commands):
 
         Create a new task ticket using username/password/desc
 
-        Discover build nvr from module or optional build argument               
+        Discover build nvr from module or optional build argument
 
-        Return ticket number on success                                         
+        Return ticket number on success
         """
 
         override = self.override
@@ -260,15 +260,15 @@ class Commands(pyrpkg.Commands):
         uri = self.tracbaseurl % {'user': self.user, 'password': passwd}
         self.trac = offtrac.TracServer(uri)
 
-        # Set trac's component and assignee from related distvar                
+        # Set trac's component and assignee from related distvar
         if self.distvar == 'fedora':
             component = 'koji'
-            #owner = 'rel-eng@lists.fedoraproject.org'                          
+            #owner = 'rel-eng@lists.fedoraproject.org'
         elif self.distvar == 'rhel':
             component = 'epel'
-            #owner = 'releng-epel@lists.fedoraproject.org'                      
+            #owner = 'releng-epel@lists.fedoraproject.org'
 
-        # Raise if people request a tag against something that self updates     
+        # Raise if people request a tag against something that self updates
         build_target = self.anon_kojisession.getBuildTarget(self.target)
         if not build_target:
             raise pyrpkg.rpkgError('Unknown build target: %s' % self.target)
