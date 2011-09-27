@@ -40,7 +40,7 @@ def _check_newstyle_branches(func):
             refsre = r'%s/(f\d\d/master|f\d/master|fc\d/master|' % remote
             refsre += r'el\d/master|olpc\d/master)'
             for ref in self.repo.refs:
-                if type(ref) == git.refs.RemoteReference and \
+                if type(ref) == git.RemoteReference and \
                 re.match(refsre, ref.name):
                     self.log.error('This repo has old style branches but '
                                    'upstream has converted to new style.\n'
@@ -196,7 +196,7 @@ class Commands(pyrpkg.Commands):
         # Find the repo refs
         for ref in self.repo.refs:
             # Only find the remote refs
-            if type(ref) == git.refs.RemoteReference:
+            if type(ref) == git.RemoteReference:
                 # Search for branch name by splitting off the remote
                 # part of the ref name and returning the rest.  This may
                 # fail if somebody names a remote with / in the name...
