@@ -61,7 +61,7 @@ def _check_newstyle_branches(func):
 class Commands(pyrpkg.Commands):
 
     def __init__(self, path, lookaside, lookasidehash, lookaside_cgi,
-                 gitbaseurl, anongiturl, branchre, kojiconfig,
+                 gitbaseurl, anongiturl, branchre, remote, kojiconfig,
                  build_client, user=None, dist=None, target=None,
                  quiet=False):
         """Init the object and some configuration details."""
@@ -70,8 +70,8 @@ class Commands(pyrpkg.Commands):
         # make it a property to potentially use a secondary config
         super(Commands, self).__init__(path, lookaside, lookasidehash,
                                  lookaside_cgi, gitbaseurl, anongiturl,
-                                 branchre, kojiconfig, build_client, user,
-                                 dist, target, quiet)
+                                 branchre, remote, kojiconfig, build_client,
+                                 user, dist, target, quiet)
 
         # New data
         self.secondary_arch = {
