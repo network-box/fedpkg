@@ -190,7 +190,7 @@ _fedpkg()
     local all_options="--help $options"
     local all_options_value="$options_target $options_arches $options_branch $options_string $options_file $options_dir $options_srpm"
 
-    # count non-option parametrs
+    # count non-option parameters
 
     local i w
     local last_option=
