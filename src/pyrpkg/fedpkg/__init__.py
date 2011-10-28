@@ -15,6 +15,7 @@ import cli
 import offtrac
 import git
 import re
+import pycurl
 
 # This check (decorator) can go away after a few months
 def _check_newstyle_branches(func):
@@ -80,6 +81,8 @@ class Commands(pyrpkg.Commands):
         # New properties
         del(self.kojiconfig)
         self._kojiconfig = None
+        self._cert_file = None
+        self._ca_cert = None
         # Store this for later
         self._orig_kojiconfig = kojiconfig
 
@@ -105,6 +108,28 @@ class Commands(pyrpkg.Commands):
                                                       arch)
                 return
         self._kojiconfig = self._orig_kojiconfig
+
+    @property
+    def cert_file(self):
+        """This property ensures the cert_file attribute"""
+
+        if not self._cert_file:
+            self.load_cert_files()
+        return self._cert_file
+
+    @property
+    def ca_cert(self):
+        """This property ensures the ca_cert attribute"""
+
+        if not self._ca_cert:
+            self.load_cert_files()
+        return self._ca_cert
+
+    def load_cert_files(self):
+        """This loads the cert_file attribute"""
+
+        self._cert_file = os.path.expanduser('~/.fedora.cert')
+        self._ca_cert = os.path.expanduser('~/.fedora-server-ca.cert')
 
     # Overloaded property loaders
     @_check_newstyle_branches
@@ -183,6 +208,37 @@ class Commands(pyrpkg.Commands):
         return(pyrpkg.Commands.build(self, *args, **kwargs))
 
     # New functionality
+    def _create_curl(self):
+        """Common curl setup options used for all requests to lookaside."""
+
+        # Overloaded to add cert files to curl objects
+        # Call the super class
+        curl = pyrpkg.Commands._create_curl(self)
+
+        # Set the users Fedora certificate:
+        if os.path.exists(self.cert_file):
+            curl.setopt(pycurl.SSLCERT, self.cert_file)
+        else:
+            self.log.warn("Missing certificate: %s" % self.cert_file)
+
+        # Set the Fedora CA certificate:
+        if os.path.exists(self.ca_cert):
+            curl.setopt(pycurl.CAINFO, self.ca_cert)
+        else:
+            self.log.warn("Missing certificate: %s" % self.ca_cert)
+
+        return curl
+
+    def _do_curl(self, file_hash, file):
+        """Use curl manually to upload a file"""
+
+        # This is overloaded to add in the fedora user's cert
+        cmd = ['curl', '-k', '--cert', self.cert_file, '--fail', '-o',
+               '/dev/null', '--show-error', '--progress-bar', '-F',
+               'name=%s' % self.module_name, '-F', 'md5sum=%s' % file_hash,
+               '-F', 'file=@%s' % file, self.lookaside_cgi]
+        self._run_command(cmd)
+
     def _findmasterbranch(self):
         """Find the right "fedora" for master"""
 
