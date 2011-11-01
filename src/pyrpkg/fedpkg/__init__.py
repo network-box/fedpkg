@@ -16,6 +16,7 @@ import offtrac
 import git
 import re
 import pycurl
+import fedora_cert
 
 # This check (decorator) can go away after a few months
 def _check_newstyle_branches(func):
@@ -186,6 +187,14 @@ class Commands(pyrpkg.Commands):
             self._target = 'f%s-candidate' % branch_merge
         else:
             self._target = '%s-candidate' % self.branch_merge
+
+    def load_user(self):
+        """This sets the user attribute, based on the Fedora SSL cert."""
+        try:
+            self._user = fedora_cert.read_user_cert()
+        except:
+            self.log.debug('Could not read Fedora cert, falling back to default method')
+            super(Commands, self).load_user()
 
     # Other overloaded functions
     # These are overloaded to throw in the check for newstyle branches
