@@ -80,7 +80,6 @@ class Commands(pyrpkg.Commands):
                                's390': ['s390utils', 'openssl-ibmca', 'libica']}
 
         # New properties
-        del(self.kojiconfig)
         self._kojiconfig = None
         self._cert_file = None
         self._ca_cert = None
@@ -95,6 +94,10 @@ class Commands(pyrpkg.Commands):
         if not self._kojiconfig:
             self.load_kojiconfig()
         return self._kojiconfig
+
+    @kojiconfig.setter
+    def kojiconfig(self, value):
+        self._kojiconfig = value
 
     def load_kojiconfig(self):
         """This loads the kojiconfig attribute
