@@ -1,0 +1,5 @@
+This is the fedpkg project, which mostly is a subclass of the rpkg project.
+
+Unless otherwise specified, all files are licensed under GPLv2+.
+
+See https://fedorahosted.org/fedpkg for more information, bug tracking, etc.

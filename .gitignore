@@ -1,0 +1,7 @@
+/.project
+/.pydevproject
+*.pyc
+py-compile
+*~
+*.swp
+/src/pyrpkg/*.py
