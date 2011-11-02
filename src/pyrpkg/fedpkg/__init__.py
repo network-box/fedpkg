@@ -284,26 +284,6 @@ class Commands(pyrpkg.Commands):
             desttag = rawhidetarget['dest_tag_name']
             return desttag.replace('f', '')
 
-    def mockbuild(self, mockargs=[]):
-        """Build the package in mock, using mockargs
-
-        Log the output and returns nothing
-
-        """
-
-        # Make sure we have an srpm to run on
-        self.srpm()
-
-        # setup the command
-        cmd = ['mock']
-        cmd.extend(mockargs)
-        cmd.extend(['-r', self.mockconfig, '--resultdir',
-                    os.path.join(self.path, self.module_name, self.ver, self.rel),
-                    '--rebuild', self.srpmname])
-        # Run the command
-        self._run_command(cmd)
-        return
-
     def new_ticket(self, passwd, desc, build=None):
         """Open a new ticket on Rel-Eng trac instance.
 

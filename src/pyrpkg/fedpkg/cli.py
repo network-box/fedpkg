@@ -33,22 +33,6 @@ class fedpkgClient(cliClient):
         self.register_update()
 
     # Target registry goes here
-    def register_mockbuild(self):
-        """Register the mockbuild target"""
-
-        mockbuild_parser = self.subparsers.add_parser('mockbuild',
-                                             help='Local test build using '
-                                             'mock',
-                                             description='This will use \
-                                             the mock utility to build the \
-                                             package for the distribution \
-                                             detected from branch \
-                                             information.  This can be \
-                                             overridden using the global \
-                                             --dist option.  Your user must \
-                                             be in the local "mock" group.')
-        mockbuild_parser.set_defaults(command=self.mockbuild)
-
     def register_retire(self):
         """Register the retire target"""
 
@@ -95,26 +79,6 @@ class fedpkgClient(cliClient):
         update_parser.set_defaults(command=self.update)
 
     # Target functions go here
-    def mockbuild(self):
-        try:
-            self.cmd.sources()
-        except Exception, e:
-            self.log.error('Could not download sources: %s' % e)
-            sys.exit(1)
-
-        # Pick up any mockargs from the env
-        mockargs = []
-        try:
-            mockargs = os.environ['MOCKARGS'].split()
-        except KeyError:
-            # there were no args
-            pass
-        try:
-            self.cmd.mockbuild(mockargs)
-        except Exception, e:
-            self.log.error('Could not run mockbuild: %s' % e)
-            sys.exit(1)
-
     def retire(self):
         try:
             self.cmd.retire(self.args.msg)
