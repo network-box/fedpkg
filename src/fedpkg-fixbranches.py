@@ -17,7 +17,7 @@ import os
 import sys
 import logging
 import re
-import pyfedpkg
+import pyrpkg
 import git
 import urllib2
 
@@ -215,7 +215,7 @@ if __name__ == '__main__':
     # to stderr.  Normal operation will show anything INFO and above.
     # Quiet hides INFO, while Verbose exposes DEBUG.  In all cases WARN or
     # higher are exposed (via stderr).
-    log = pyfedpkg.log
+    log = pyrpkg.log
 
     if args.v:
         log.setLevel(logging.DEBUG)
