@@ -27,7 +27,6 @@ class fedpkgClient(cliClient):
     def setup_fed_subparsers(self):
         """Register the fedora specific targets"""
 
-        self.register_mockbuild()
         self.register_retire()
         self.register_tagrequest()
         self.register_update()
