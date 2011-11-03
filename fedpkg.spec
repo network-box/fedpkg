@@ -53,7 +53,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %doc COPYING README
 %config(noreplace) %{_sysconfdir}/rpkg
-%config(noreplace) %{_sysconfdir}/koji-rhel.conf
 %{_sysconfdir}/bash_completion.d
 %{_bindir}/%{name}
 %{_mandir}/*/*
