@@ -200,8 +200,8 @@ class Commands(pyrpkg.Commands):
     # Other overloaded functions
     # These are overloaded to throw in the check for newstyle branches
     @_check_newstyle_branches
-    def import_srpm(self):
-        pyrpkg.Commands.import_srpm(self)
+    def import_srpm(self, *args):
+        pyrpkg.Commands.import_srpm(self, *args)
 
     @_check_newstyle_branches
     def pull(self, *args, **kwargs):
