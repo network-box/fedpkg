@@ -2,7 +2,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
 
 Name:           fedpkg
-Version:        1.1
+Version:        1.2
 Release:        1%{?dist}
 Summary:        Fedora utility for working with dist-git
 
@@ -62,6 +62,14 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Nov 03 2011 Jesse Keating <jkeating@redhat.com> - 1.2-1
+- Catch raises in the libraries (jkeating)
+- Fix the fixbranches script for new module name (jkeating)
+- srpm takes arguments, pass them along (jkeating)
+- Get error output from user detection failures (jkeating)
+- Get the user name from the Fedora SSL certificate. (bochecha)
+- Fix crash when detecting Rawhide. (bochecha)
+
 * Fri Oct 28 2011 Jesse Keating <jkeating@redhat.com> - 1.1-1
 - Overload curl stuff (jkeating)                                                
 - Hardcode fedpkg version requires (jkeating)                                   
