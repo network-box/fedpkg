@@ -2,7 +2,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
 
 Name:           fedpkg
-Version:        1.2
+Version:        1.3
 Release:        1%{?dist}
 Summary:        Fedora utility for working with dist-git
 
@@ -63,6 +63,12 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Nov 03 2011 Jesse Keating <jkeating@redhat.com> - 1.3-1
+- Fix buildrequires (jkeating)
+- Don't register a nonexestant target (jkeating)
+- Drop koji-rhel.conf file (jkeating)
+- Fix up the setup.py (jkeating)
+
 * Thu Nov 03 2011 Jesse Keating <jkeating@redhat.com> - 1.2-1
 - Catch raises in the libraries (jkeating)
 - Fix the fixbranches script for new module name (jkeating)
