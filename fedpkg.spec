@@ -22,7 +22,9 @@ Requires:       python-kitchen
 BuildArch:      noarch
 BuildRequires:  python-devel, python-setuptools, python-offtrac
 # We br these things for man page generation due to imports
-BuildRequires:  pyrpkg
+BuildRequires:  pyrpkg, fedora-cert
+# This until fedora-cert gets fixed
+BuildRequires:  python-fedora
 
 
 %description
