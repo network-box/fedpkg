@@ -1,6 +1,4 @@
-import os
-import subprocess
-from setuptools import setup, command
+from setuptools import setup
 
 setup(
     name = "fedpkg",
@@ -16,4 +14,5 @@ setup(
     scripts = ['src/fedpkg'],
     data_files = [('/etc/bash_completion.d', ['src/fedpkg.bash']),
                   ('/etc/rpkg', ['src/fedpkg.conf']),
+                 ]
 )
