@@ -2,7 +2,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
 
 Name:           fedpkg
-Version:        1.4
+Version:        1.5
 Release:        1%{?dist}
 Summary:        Fedora utility for working with dist-git
 
@@ -63,6 +63,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Nov 07 2011 Jesse Keating <jkeating@redhat.com> - 1.5-1
+- Pass along the return value from import_srpm (jkeating)
+- Whitespace cleanup (jkeating)
+
 * Mon Nov 07 2011 Jesse Keating <jkeating@redhat.com> - 1.4-1
 - Use the GPLv2 content for COPYING to match intent. (jkeating)
 
