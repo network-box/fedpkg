@@ -46,7 +46,7 @@ Provides the fedpkg command for working with dist-git
 %{__install} -d $RPM_BUILD_ROOT%{_mandir}/man1
 %{__install} -p -m 0644 fedpkg.1 $RPM_BUILD_ROOT%{_mandir}/man1
 
- 
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -81,6 +81,6 @@ rm -rf $RPM_BUILD_ROOT
 - Fix crash when detecting Rawhide. (bochecha)
 
 * Fri Oct 28 2011 Jesse Keating <jkeating@redhat.com> - 1.1-1
-- Overload curl stuff (jkeating)                                                
-- Hardcode fedpkg version requires (jkeating)                                   
-- Fix up changelog date (jkeating)   
+- Overload curl stuff (jkeating)
+- Hardcode fedpkg version requires (jkeating)
+- Fix up changelog date (jkeating)
