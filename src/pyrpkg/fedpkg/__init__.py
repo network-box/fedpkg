@@ -195,7 +195,7 @@ class Commands(pyrpkg.Commands):
         except Exception, e:
             self.log.debug('Could not read Fedora cert, falling back to '
                            'default method: ' % e)
-            super(Commands, self).load_user()
+            pyrpkg.Commands.load_user(self)
 
     # Other overloaded functions
     # These are overloaded to throw in the check for newstyle branches
