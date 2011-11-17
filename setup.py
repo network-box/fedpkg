@@ -14,5 +14,6 @@ setup(
     scripts = ['src/fedpkg'],
     data_files = [('/etc/bash_completion.d', ['src/fedpkg.bash']),
                   ('/etc/rpkg', ['src/fedpkg.conf']),
+                  ('/usr/libexec/', ['src/fedpkg-fixbranches.py']),
                  ]
 )

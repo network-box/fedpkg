@@ -45,6 +45,7 @@ Provides the fedpkg command for working with dist-git
 %{__python} setup.py install -O1 --skip-build --root $RPM_BUILD_ROOT
 %{__install} -d $RPM_BUILD_ROOT%{_mandir}/man1
 %{__install} -p -m 0644 fedpkg.1 $RPM_BUILD_ROOT%{_mandir}/man1
+rename es.py es $RPM_BUILD_ROOT%{_libexecdir}/fedpkg-fixbranches.py
 
 
 %clean
@@ -58,6 +59,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/bash_completion.d
 %{_bindir}/%{name}
 %{_mandir}/*/*
+%{_libexecdir}/fedpkg-fixbranches
 # For noarch packages: sitelib
 %{python_sitelib}/*
 
