@@ -2,7 +2,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
 
 Name:           fedpkg
-Version:        1.5
+Version:        1.6
 Release:        1%{?dist}
 Summary:        Fedora utility for working with dist-git
 
@@ -65,6 +65,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Nov 21 2011 Jesse Keating <jkeating@redhat.com> - 1.6-1
+- Replace -c with -C for the --config option (jkeating)
+- Package up fedpkg-fixbranches (#751507) (jkeating)
+- Use old style of super class calls (jkeating)
+
 * Mon Nov 07 2011 Jesse Keating <jkeating@redhat.com> - 1.5-1
 - Pass along the return value from import_srpm (jkeating)
 - Whitespace cleanup (jkeating)
