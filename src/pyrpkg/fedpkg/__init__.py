@@ -103,6 +103,13 @@ class Commands(pyrpkg.Commands):
         secondary arch config depending on the package
         """
 
+        # We have to allow this to work, even if we don't have a package
+        # we're working on, for things like gitbuildhash.
+        try:
+            null = self.module_name
+        except:
+            self._kojiconfig = self._orig_kojiconfig
+            return
         for arch in self.secondary_arch.keys():
             if self.module_name in self.secondary_arch[arch]:
                 self._kojiconfig = os.path.expanduser('~/.koji/%s-config' %
