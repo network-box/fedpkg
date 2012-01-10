@@ -21,7 +21,7 @@ import hashlib
 
 class fedpkgClient(cliClient):
     def __init__(self, config, name='fedpkg'):
-        cliClient.__init__(self, config, name)
+        super(fedpkgClient, self).__init__(config, name)
         self.setup_fed_subparsers()
 
     def setup_fed_subparsers(self):

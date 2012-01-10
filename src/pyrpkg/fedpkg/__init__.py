@@ -61,7 +61,7 @@ class Commands(pyrpkg.Commands):
 
         # We are subclassing to set kojiconfig to none, so that we can
         # make it a property to potentially use a secondary config
-        pyrpkg.Commands.__init__(self, path, lookaside, lookasidehash,
+        super(Commands, self).__init__(path, lookaside, lookasidehash,
                                  lookaside_cgi, gitbaseurl, anongiturl,
                                  branchre, kojiconfig, build_client, user,
                                  dist, target)
@@ -202,25 +202,25 @@ class Commands(pyrpkg.Commands):
         except Exception, e:
             self.log.debug('Could not read Fedora cert, falling back to '
                            'default method: ' % e)
-            pyrpkg.Commands.load_user(self)
+            super(Commands, self).load_user()
 
     # Other overloaded functions
     # These are overloaded to throw in the check for newstyle branches
     @_check_newstyle_branches
     def import_srpm(self, *args):
-        return pyrpkg.Commands.import_srpm(self, *args)
+        return super(Commands, self).import_srpm(*args)
 
     @_check_newstyle_branches
     def pull(self, *args, **kwargs):
-        pyrpkg.Commands.pull(self, *args, **kwargs)
+        super(Commands, self).pull(*args, **kwargs)
 
     @_check_newstyle_branches
     def push(self):
-        pyrpkg.Commands.push(self)
+        super(Commands, self).push()
 
     @_check_newstyle_branches
     def build(self, *args, **kwargs):
-        return(pyrpkg.Commands.build(self, *args, **kwargs))
+        return(super(Commands, self).build(*args, **kwargs))
 
     # New functionality
     def _create_curl(self):
@@ -228,7 +228,7 @@ class Commands(pyrpkg.Commands):
 
         # Overloaded to add cert files to curl objects
         # Call the super class
-        curl = pyrpkg.Commands._create_curl(self)
+        curl = super(Commands, self)._create_curl(self)
 
         # Set the users Fedora certificate:
         if os.path.exists(self.cert_file):
