@@ -231,7 +231,7 @@ class Commands(pyrpkg.Commands):
 
         # Overloaded to add cert files to curl objects
         # Call the super class
-        curl = super(Commands, self)._create_curl(self)
+        curl = super(Commands, self)._create_curl()
 
         # Set the users Fedora certificate:
         if os.path.exists(self.cert_file):
