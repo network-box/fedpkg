@@ -2,7 +2,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
 
 Name:           fedpkg
-Version:        1.6
+Version:        1.7
 Release:        1%{?dist}
 Summary:        Fedora utility for working with dist-git
 
@@ -65,6 +65,12 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Jan 14 2012 Jesse Keating <jkeating@redhat.com> - 1.7-1
+- Adapt property overloading to new-style class. (bochecha)
+- Use super(), now that rpkg uses new-style classes everywhere (bochecha)
+- Add gitbuildurl to the bash completion. (jkeating)
+- Handle koji config with unknown module name (jkeating)
+
 * Mon Nov 21 2011 Jesse Keating <jkeating@redhat.com> - 1.6-1
 - Replace -c with -C for the --config option (jkeating)
 - Package up fedpkg-fixbranches (#751507) (jkeating)
