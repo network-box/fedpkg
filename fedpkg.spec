@@ -12,7 +12,7 @@ URL:            http://fedorahosted.org/fedpkg
 Source0:        http://fedorahosted.org/releases/f/e/fedpkg/fedpkg-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-Requires:       pyrpkg, redhat-rpm-config
+Requires:       pyrpkg >= 1.11, redhat-rpm-config
 Requires:       python-pycurl, koji, python-fedora
 Requires:       fedora-cert, python-offtrac, bodhi-client
 %if 0%{?rhel} == 5 || 0%{?rhel} == 4
