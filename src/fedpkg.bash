@@ -93,7 +93,7 @@ _fedpkg()
     local after= after_more=
 
     case $command in
-        help|clog|gimmespec|gitbuildurl|giturl|lint|mockbuild|new|push|unused-patches|update|verrel)
+        help|gimmespec|gitbuildurl|giturl|lint|mockbuild|new|push|unused-patches|update|verrel)
             ;;
         build)
             options="--nowait --background --skip-tag --scratch"
@@ -109,13 +109,16 @@ _fedpkg()
         clean)
             options="--dry-run -x"
             ;;
+        clog)
+            options="--raw"
+            ;;
         clone|co)
             options="--branches --anonymous"
             options_branch="-b"
             after="package"
             ;;
         commit|ci)
-            options="--push --clog --tag"
+            options="--push --clog --raw --tag"
             options_string="--message"
             options_file="--file"
             after="file"
@@ -173,7 +176,7 @@ _fedpkg()
             after="branch"
             ;;
         tag)
-            options="--clog --force --list --delete"
+            options="--clog --raw --force --list --delete"
             options_string="--message"
             options_file="--file"
             after_more=true
