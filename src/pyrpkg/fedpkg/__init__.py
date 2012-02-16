@@ -56,7 +56,8 @@ class Commands(pyrpkg.Commands):
 
     def __init__(self, path, lookaside, lookasidehash, lookaside_cgi,
                  gitbaseurl, anongiturl, branchre, kojiconfig,
-                 build_client, user=None, dist=None, target=None):
+                 build_client, user=None, dist=None, target=None,
+                 quiet=False):
         """Init the object and some configuration details."""
 
         # We are subclassing to set kojiconfig to none, so that we can
@@ -64,7 +65,7 @@ class Commands(pyrpkg.Commands):
         super(Commands, self).__init__(path, lookaside, lookasidehash,
                                  lookaside_cgi, gitbaseurl, anongiturl,
                                  branchre, kojiconfig, build_client, user,
-                                 dist, target)
+                                 dist, target, quiet)
 
         # New data
         self.secondary_arch = {'sparc': ['silo', 'prtconf', 'lssbus', 'afbinit',
@@ -254,7 +255,10 @@ class Commands(pyrpkg.Commands):
         cmd = ['curl', '-k', '--cert', self.cert_file, '--fail', '-o',
                '/dev/null', '--show-error', '--progress-bar', '-F',
                'name=%s' % self.module_name, '-F', 'md5sum=%s' % file_hash,
-               '-F', 'file=@%s' % file, self.lookaside_cgi]
+               '-F', 'file=@%s' % file]
+        if self.quiet:
+            cmd.append('-s')
+        cmd.append(self.lookaside_cgi)
         self._run_command(cmd)
 
     def _findmasterbranch(self):
@@ -358,7 +362,10 @@ class Commands(pyrpkg.Commands):
         Runs the commands and returns nothing
         """
 
-        cmd = ['git', 'rm', '-rf', '.']
+        cmd = ['git']
+        if self.quiet:
+            cmd.append('--quiet')
+        cmd.extend(['rm', '-rf', '.'])
         self._run_command(cmd, cwd=self.path)
 
         if not message:
