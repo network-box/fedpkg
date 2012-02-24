@@ -1,6 +1,7 @@
 # fedpkg bash completion
 
-have fedpkg &&
+have fedpkg || return 1
+
 _fedpkg()
 {
     COMPREPLY=()
@@ -260,19 +261,16 @@ _fedpkg()
 } &&
 complete -F _fedpkg fedpkg
 
-have _fedpkg &&
 _fedpkg_target()
 {
     koji list-targets --quiet 2>/dev/null | cut -d" " -f1
 }
 
-have _fedpkg &&
 _fedpkg_arch()
 {
     echo "i386 x86_64 ppc ppc64 s390 s390x sparc sparc64"
 }
 
-have _fedpkg &&
 _fedpkg_branch()
 {
     local git_options= format="--format %(refname:short)"
@@ -282,7 +280,6 @@ _fedpkg_branch()
     git $git_options for-each-ref $format 'refs/heads'
 }
 
-have _fedpkg &&
 _fedpkg_package()
 {
     repoquery -C --qf=%{sourcerpm} "$1*" 2>/dev/null | sort -u | sed -r 's/(-[^-]*){2}\.src\.rpm$//'
