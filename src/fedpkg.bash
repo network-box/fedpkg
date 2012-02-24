@@ -237,13 +237,12 @@ _fedpkg()
         COMPREPLY=( )
 
     else
-        local compgen_extra=
         local after_options=
 
         if [[ $after_counter -eq 0 ]] || [[ $after_more = true ]]; then
             case $after in
-                file)    _filedir_exclude_paths; compgen_extra=${COMPREPLY[@]} ;;
-                srpm)    _filedir_exclude_paths "*.src.rpm"; compgen_extra=${COMPREPLY[@]} ;;
+                file)    _filedir_exclude_paths ;;
+                srpm)    _filedir_exclude_paths "*.src.rpm" ;;
                 branch)  after_options="$(_fedpkg_branch "$path")" ;;
                 package) after_options="$(_fedpkg_package "$cur")";;
             esac
@@ -254,7 +253,7 @@ _fedpkg()
             all_options_value=
         fi
 
-        COMPREPLY=( $(compgen -W "$all_options $all_options_value $after_options $compgen_extra" -- "$cur" ) )
+        COMPREPLY+=( $(compgen -W "$all_options $all_options_value $after_options" -- "$cur" ) )
     fi
 
     return 0
