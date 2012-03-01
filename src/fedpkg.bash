@@ -128,6 +128,7 @@ _fedpkg()
         compile|install)
             options="--short-circuit"
             options_arch="--arch"
+            options_dir="--builddir"
             ;;
         diff)
             options="--cached"
@@ -145,6 +146,7 @@ _fedpkg()
         local)
             options="--md5"
             options_arch="--arch"
+            options_dir="--builddir"
             ;;
         mock-config)
             options="--target"
@@ -158,8 +160,9 @@ _fedpkg()
             options="--rediff"
             options_string="--suffix"
             ;;
-        prep)
+        prep|verify-files)
             options_arch="--arch"
+            options_dir="--builddir"
             ;;
         pull)
             options="--rebase --no-rebase"
