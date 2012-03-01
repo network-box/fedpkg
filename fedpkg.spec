@@ -2,7 +2,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
 
 Name:           fedpkg
-Version:        1.7
+Version:        1.8
 Release:        1%{?dist}
 Summary:        Fedora utility for working with dist-git
 
@@ -65,6 +65,15 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Mar 01 2012 Jesse Keating <jkeating@redhat.com> - 1.8-1
+- More completion fixes (jkeating)
+- Add mock-config and mockbuild completion (jkeating)
+- Simplify test for fedpkg availability. (ville.skytta)
+- Fix ~/... path completion. (ville.skytta)
+- Add --raw to bash completion (jkeating)
+- Make things quiet when possible (jkeating)
+- Fix property variables (jkeating)
+
 * Sat Jan 14 2012 Jesse Keating <jkeating@redhat.com> - 1.7-1
 - Adapt property overloading to new-style class. (bochecha)
 - Use super(), now that rpkg uses new-style classes everywhere (bochecha)
