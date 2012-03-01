@@ -37,7 +37,7 @@ _fedpkg()
     local options="--help -v -q"
     local options_value="--dist --user --path"
     local commands="build chain-build ci clean clog clone co commit compile diff gimmespec giturl help \
-    gitbuildurl import install lint local mockbuild new new-sources patch prep pull push retire scratch-build sources \
+    gitbuildurl import install lint local mockbuild mock-config new new-sources patch prep pull push retire scratch-build sources \
     srpm switch-branch tag tag-request unused-patches update upload verify-files verrel"
 
     # parse main options and get command
@@ -94,7 +94,7 @@ _fedpkg()
     local after= after_more=
 
     case $command in
-        help|gimmespec|gitbuildurl|giturl|lint|mockbuild|new|push|unused-patches|update|verrel)
+        help|gimmespec|gitbuildurl|giturl|lint|new|push|unused-patches|update|verrel)
             ;;
         build)
             options="--nowait --background --skip-tag --scratch"
@@ -145,6 +145,14 @@ _fedpkg()
         local)
             options="--md5"
             options_arch="--arch"
+            ;;
+        mock-config)
+            options="--target"
+            options_arch="--arch"
+            ;;
+        mockbuild)
+            options="--md5"
+            options_mroot="--root"
             ;;
         patch)
             options="--rediff"
