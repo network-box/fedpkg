@@ -28,8 +28,13 @@ def _check_newstyle_branches(func):
     def checky(self, *args, **kwargs):
         # First only work on the remotes we care about
         fedpkg = 'pkgs.*\.fedoraproject\.org\/'
-        remotes = [remote.name for remote in self.repo.remotes if
-                   re.search(fedpkg, remote.url)]
+        # Do this in a try in case we're not in a repo
+        try:
+            remotes = [remote.name for remote in self.repo.remotes if
+                       re.search(fedpkg, remote.url)]
+        except:
+            self.log.debug("Not in a repo, don't care about remotes")
+            return func(self, *args, **kwargs)
 
         # Now loop through the remotes and see if any of them have
         # old style branch names
