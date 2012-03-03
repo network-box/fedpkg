@@ -268,6 +268,12 @@ class Commands(pyrpkg.Commands):
     def _findmasterbranch(self):
         """Find the right "fedora" for master"""
 
+        # If we already have a koji session, just get data from the source
+        if self._kojisession:
+            rawhidetarget = self.kojisession.getBuildTarget('rawhide')
+            desttag = rawhidetarget['dest_tag_name']
+            return desttag.replace('f', '')
+
         # Create a list of "fedoras"
         fedoras = []
 
