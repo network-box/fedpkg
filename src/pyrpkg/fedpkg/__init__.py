@@ -199,8 +199,7 @@ class Commands(pyrpkg.Commands):
         """This creates the target attribute based on branch merge"""
 
         if self.branch_merge == 'master':
-            branch_merge = self._findmasterbranch()
-            self._target = 'f%s-candidate' % branch_merge
+            self._target = 'rawhide'
         else:
             self._target = '%s-candidate' % self.branch_merge
 
