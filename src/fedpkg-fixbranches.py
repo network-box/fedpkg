@@ -120,7 +120,11 @@ def convert(args):
                           remote)
                 log.info('Pruning branch data from %s' % remote)
                 if not args.dry_run:
-                    repo.git.remote('prune', remote)
+                    try:
+                        repo.git.remote('prune', remote)
+                    except Error, e:
+                        log.error('Could not prune the repo: %s' % e)
+                        sys.exit(1)
                 pruned = True
                 break
 
