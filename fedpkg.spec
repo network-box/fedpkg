@@ -2,7 +2,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
 
 Name:           fedpkg
-Version:        1.8
+Version:        1.9
 Release:        1%{?dist}
 Summary:        Fedora utility for working with dist-git
 
@@ -65,6 +65,12 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Mar 12 2012 Jesse Keating <jkeating@redhat.com> - 1.9-1
+- Wrap the prune command in a try (rhbz#785820) (jkeating)
+- Use koji if we have it to get master details (rhbz#785234) (jkeating)
+- Always send builds from master to 'rawhide' (rhbz#785234) (jkeating)
+- Handle fedpkg calls not from a git repo (rhbz#785776) (jkeating)
+
 * Thu Mar 01 2012 Jesse Keating <jkeating@redhat.com> - 1.8-1
 - More completion fixes (jkeating)
 - Add mock-config and mockbuild completion (jkeating)

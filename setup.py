@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name = "fedpkg",
-    version = "1.8",
+    version = "1.9",
     author = "Jesse Keating",
     author_email = "jkeating@redhat.com",
     description = ("Red Hat plugin to rpkg to manage "
