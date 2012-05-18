@@ -122,7 +122,7 @@ def convert(args):
                 if not args.dry_run:
                     try:
                         repo.git.remote('prune', remote)
-                    except Error, e:
+                    except Exception, e:
                         log.error('Could not prune the repo: %s' % e)
                         sys.exit(1)
                 pruned = True
