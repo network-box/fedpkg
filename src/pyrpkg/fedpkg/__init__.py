@@ -162,6 +162,7 @@ class Commands(pyrpkg.Commands):
             self.dist = 'fc%s' % self._distval
             self.mockconfig = 'fedora-%s-%s' % (self._distval, self.localarch)
             self.override = 'dist-f%s-override' % self._distval
+            self._distunset = 'rhel'
         # Works until RHEL 10
         elif re.match(r'el\d$', self.branch_merge):
             self._distval = self.branch_merge.split('el')[1]
@@ -169,11 +170,13 @@ class Commands(pyrpkg.Commands):
             self.dist = 'el%s' % self._distval
             self.mockconfig = 'epel-%s-%s' % (self._distval, self.localarch)
             self.override = 'dist-%sE-epel-override' % self._distval
+            self._distunset = 'fedora'
         elif re.match(r'olpc\d$', self.branch_merge):
             self._distval = self.branch_merge.split('olpc')[1]
             self._distvar = 'olpc'
             self.dist = 'olpc%s' % self._distval
             self.override = 'dist-olpc%s-override' % self._distval
+            self._distunset = 'rhel'
         # master
         elif re.match(r'master$', self.branch_merge):
             self._distval = self._findmasterbranch()
@@ -181,6 +184,7 @@ class Commands(pyrpkg.Commands):
             self.dist = 'fc%s' % self._distval
             self.mockconfig = 'fedora-devel-%s' % self.localarch
             self.override = None
+            self._distunset = 'rhel'
         # If we don't match one of the above, punt
         else:
             raise pyrpkg.rpkgError('Could not find the dist from branch name '
@@ -193,6 +197,7 @@ class Commands(pyrpkg.Commands):
                             "--define '_rpmdir %s'" % self.path,
                             "--define 'dist .%s'" % self.dist,
                             "--define '%s %s'" % (self._distvar, self._distval),
+                            "--define '%s 0'" % self._distunset,
                             "--define '%s 1'" % self.dist]
 
     def load_target(self):
