@@ -197,7 +197,7 @@ class Commands(pyrpkg.Commands):
                             "--define '_rpmdir %s'" % self.path,
                             "--define 'dist .%s'" % self.dist,
                             "--define '%s %s'" % (self._distvar, self._distval),
-                            "--define '%s 0'" % self._distunset,
+                            "--define '%s %%{nil}'" % self._distunset,
                             "--define '%s 1'" % self.dist]
 
     def load_target(self):
