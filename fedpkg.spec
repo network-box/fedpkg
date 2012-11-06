@@ -2,7 +2,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
 
 Name:           fedpkg
-Version:        1.10
+Version:        1.11
 Release:        1%{?dist}
 Summary:        Fedora utility for working with dist-git
 
@@ -65,6 +65,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Nov 06 2012 Jesse Keating <jkeating@redhat.com> - 1.11-1
+- Unset runtime disttag (spot)
+- use nil to unset dist values. (spot)
+
 * Tue Oct 09 2012 Jesse Keating <jkeating@redhat.com> - 1.10-1
 - Force invalid dist values to 0 (spot) (jkeating)
 - Fix a traceback in fixbranches (#817478) (jkeating)
