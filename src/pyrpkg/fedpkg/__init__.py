@@ -17,6 +17,7 @@ import git
 import re
 import pycurl
 import fedora_cert
+import platform
 
 # This check (decorator) can go away after a few months
 def _check_newstyle_branches(func):
@@ -153,6 +154,9 @@ class Commands(pyrpkg.Commands):
     def load_rpmdefines(self):
         """Populate rpmdefines based on branch data"""
 
+        # Determine runtime environment
+        self._runtime_disttag = self._determine_runtime_env()
+
         # We only match the top level branch name exactly.
         # Anything else is too dangerous and --dist should be used
         # This regex works until after Fedora 99.
@@ -199,6 +203,12 @@ class Commands(pyrpkg.Commands):
                             "--define '%s %s'" % (self._distvar, self._distval),
                             "--define '%s %%{nil}'" % self._distunset,
                             "--define '%s 1'" % self.dist]
+        if self._runtime_disttag:
+            if self.dist != self._runtime_disttag:
+                # This means that the runtime is known, and is different from
+                # the target, so we need to unset the _runtime_disttag
+                self._rpmdefines.append("--define '%s %%{nil}'" %
+                                        self._runtime_disttag)
 
     def load_target(self):
         """This creates the target attribute based on branch merge"""
@@ -312,6 +322,36 @@ class Commands(pyrpkg.Commands):
                                        target')
             desttag = rawhidetarget['dest_tag_name']
             return desttag.replace('f', '')
+
+    def _determine_runtime_env(self):
+        """Need to know what the runtime env is, so we can unset anything
+           conflicting
+        """
+
+        try:
+           mydist = platform.linux_distribution()
+        except:
+           # This is marked as eventually being deprecated.
+           try:
+              mydist = platform.dist()
+           except:
+              runtime_os = 'unknown'
+              runtime_version = '0'
+
+        if mydist:
+           runtime_os = mydist[0]
+           runtime_version = mydist[1]
+        else:
+           runtime_os = 'unknown'
+           runtime_version = '0'
+
+        if runtime_os in ['redhat', 'centos']:
+            return 'el%s' % runtime_version
+        if runtime_os == 'Fedora':
+            return 'fc%s' % runtime_version
+
+        # fall through, return None
+        return None
 
     def new_ticket(self, passwd, desc, build=None):
         """Open a new ticket on Rel-Eng trac instance.
