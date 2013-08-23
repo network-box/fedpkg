@@ -417,6 +417,11 @@ class Commands(pyrpkg.Commands):
         Runs the commands and returns nothing
         """
 
+        if self.branch_merge == "master":
+            branch = 'devel'
+        else:
+            branch = self.branch_merge
+
         cmd = ['git']
         if self.quiet:
             cmd.append('--quiet')
@@ -434,6 +439,13 @@ class Commands(pyrpkg.Commands):
         self._run_command(cmd, cwd=self.path)
 
         self.commit(message=message)
+
+        cmd = ['pkgdb-cli',
+               'orphan',
+               '--retire',
+               '--branch', branch,
+               self.module_name]
+        self._run_command(cmd, cwd=self.path)
 
     def update(self, template='bodhi.template', bugs=[]):
         """Submit an update to bodhi using the provided template."""
