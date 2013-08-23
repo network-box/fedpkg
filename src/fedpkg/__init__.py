@@ -74,15 +74,9 @@ class Commands(pyrpkg.Commands):
                                  dist, target, quiet)
 
         # New data
-        self.secondary_arch = {'sparc': ['silo', 'prtconf', 'lssbus', 'afbinit',
-                                         'piggyback', 'xorg-x11-drv-sunbw2',
-                                         'xorg-x11-drv-suncg14',
-                                         'xorg-x11-drv-suncg3',
-                                         'xorg-x11-drv-suncg6',
-                                         'xorg-x11-drv-sunffb',
-                                         'xorg-x11-drv-sunleo',
-                                         'xorg-x11-drv-suntcx'],
-                               'ppc': ['ppc64-utils', 'yaboot'],
+        self.secondary_arch = {'ppc': ['ppc64-utils', 'yaboot',
+                                       'powerpc-utils', 'powerpc-utils-papr',
+                                       'libvpd', 'lsvpd'],
                                'arm': ['xorg-x11-drv-omapfb'],
                                's390': ['s390utils', 'openssl-ibmca', 'libica']}
 
@@ -122,7 +116,7 @@ class Commands(pyrpkg.Commands):
             return
         for arch in self.secondary_arch.keys():
             if self.module_name in self.secondary_arch[arch]:
-                self._kojiconfig = os.path.expanduser('~/.koji/%s-config' %
+                self._kojiconfig = os.path.expanduser('/etc/koji/%s-config' %
                                                       arch)
                 return
         self._kojiconfig = self._orig_kojiconfig
