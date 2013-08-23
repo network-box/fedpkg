@@ -443,3 +443,8 @@ class Commands(pyrpkg.Commands):
                '--file', 'bodhi.template', self.nvr, '--username',
                self.user]
         self._run_command(cmd, shell=True)
+
+
+if __name__ == "__main__":
+    from fedpkg.__main__ import main
+    main()

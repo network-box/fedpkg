@@ -104,18 +104,18 @@ class fedpkgClient(cliClient):
 
     def update(self):
         template = """\
-[ %(nvr)s ]                                                                 
+[ %(nvr)s ]
 
 # bugfix, security, enhancement, newpackage (required)
 type=
 
-# testing, stable                                                           
+# testing, stable
 request=testing
 
 # Bug numbers: 1234,9876
 bugs=%(bugs)s
 
-# Description of your update                                                
+# Description of your update
 notes=Here is where you give an explanation of your update.
 
 # Enable request automation based on the stable/unstable karma thresholds

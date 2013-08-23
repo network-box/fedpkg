@@ -1,3 +1,4 @@
+#!/usr/bin/python
 from setuptools import setup
 
 setup(
@@ -10,8 +11,8 @@ setup(
     license = "GPLv2+",
     url = "http://fedorahosted.org/fedpkg",
     package_dir = {'': 'src'},
-    packages = ['pyrpkg.fedpkg'],
-    scripts = ['src/fedpkg'],
+    packages = ['fedpkg'],
+    scripts = ['src/bin/fedpkg'],
     data_files = [('/etc/bash_completion.d', ['src/fedpkg.bash']),
                   ('/etc/rpkg', ['src/fedpkg.conf']),
                   ('/usr/libexec/', ['src/fedpkg-fixbranches.py']),

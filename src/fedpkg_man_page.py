@@ -146,10 +146,10 @@ def generate(parser, subparsers):
 
 if __name__ == '__main__':
     try:
-        import pyrpkg.fedpkg
-        client = pyrpkg.fedpkg.cli.fedpkgClient(config=None)
+        import fedpkg
+        client = fedpkg.cli.fedpkgClient(config=None)
     except ImportError:
-        sys.path.append('src/pyrpkg')
+        sys.path.append('src/')
         import fedpkg
         client = fedpkg.cli.fedpkgClient(config=None)
     client.parse_cmdline(manpage = True)
