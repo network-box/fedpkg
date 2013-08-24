@@ -2,7 +2,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
 
 Name:           fedpkg
-Version:        1.11
+Version:        1.12
 Release:        1%{?dist}
 Summary:        Fedora utility for working with dist-git
 
@@ -65,6 +65,12 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Aug 24 2013 Dennis Gilmore <dennis@ausil.us> - 1.12-1
+- update ppc secondary arch packages, remove sparc, point to new seconary arch
+  config location (dennis)
+- retire packages in packagedb as well (opensource)
+- Move fedpkg to own module (opensource)
+
 * Tue Nov 06 2012 Jesse Keating <jkeating@redhat.com> - 1.11-1
 - Unset runtime disttag (spot)
 - use nil to unset dist values. (spot)

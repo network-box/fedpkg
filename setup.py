@@ -3,10 +3,10 @@ from setuptools import setup
 
 setup(
     name = "fedpkg",
-    version = "1.11",
-    author = "Jesse Keating",
-    author_email = "jkeating@redhat.com",
-    description = ("Red Hat plugin to rpkg to manage "
+    version = "1.12",
+    author = "Dennis Gilmore",
+    author_email = "dgilmore@fedoraproject.org",
+    description = ("Fedora plugin to rpkg to manage "
                    "package sources in a git repository"),
     license = "GPLv2+",
     url = "http://fedorahosted.org/fedpkg",
