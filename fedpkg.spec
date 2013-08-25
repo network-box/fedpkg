@@ -2,7 +2,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
 
 Name:           fedpkg
-Version:        1.12
+Version:        1.13
 Release:        1%{?dist}
 Summary:        Fedora utility for working with dist-git
 
@@ -65,6 +65,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Aug 24 2013 Dennis Gilmore <dennis@ausil.us> - 1.13-1
+- Rework --retire (opensource)
+
 * Sat Aug 24 2013 Dennis Gilmore <dennis@ausil.us> - 1.12-1
 - update ppc secondary arch packages, remove sparc, point to new seconary arch
   config location (dennis)
