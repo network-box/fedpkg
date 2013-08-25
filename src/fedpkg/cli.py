@@ -15,6 +15,7 @@ import os
 import logging
 import getpass
 import re
+import subprocess
 import textwrap
 import hashlib
 
@@ -35,15 +36,13 @@ class fedpkgClient(cliClient):
     def register_retire(self):
         """Register the retire target"""
 
-        retire_parser = self.subparsers.add_parser('retire',
-                                              help='Retire a package',
-                                              description='This command will \
-                                              remove all files from the repo \
-                                              and leave a dead.package file.')
-        retire_parser.add_argument('-p', '--push',
-                                   default=False,
-                                   action='store_true',
-                                   help='Push changes to remote repository')
+        retire_parser = self.subparsers.add_parser(
+            'retire',
+            help='Retire a package',
+            description='This command will remove all files from the repo, '
+                        'leave a dead.package file, push the changes and '
+                        'retire the package in pkgdb.'
+        )
         retire_parser.add_argument('msg',
                                    nargs='?',
                                    help='Message for retiring the package')
@@ -80,12 +79,36 @@ class fedpkgClient(cliClient):
     # Target functions go here
     def retire(self):
         try:
-            self.cmd.retire(self.args.msg)
+            # Skip if package is already retired to allow to retire only in
+            # pkgdb
+            if os.path.isfile(os.path.join(self.cmd.path, 'dead.package')):
+                self.log.warn('dead.package found, package probably already '
+                              'retired - will not remove files from git or '
+                              'overwrite existing dead.package file')
+            else:
+                self.cmd.retire(self.args.msg)
+            self.push()
+
+            # get module name from git, because pyrpkg gets it from SPEC,
+            # which is deleted at this point
+            cmd = ['git', 'config', '--get', 'remote.origin.url']
+            module_name = subprocess.check_output(cmd, cwd=self.cmd.path)
+            module_name = \
+                module_name.strip().split(self.cmd.gitbaseurl %
+                                          {'user': self.cmd.user,
+                                          'module': ''})[1]
+            branch = self.cmd.branch_merge
+            if branch == 'master':
+                branch = 'devel'
+            cmd = ['pkgdb-cli',
+                   'orphan',
+                   '--retire',
+                   module_name,
+                   branch]
+            self.cmd._run_command(cmd, cwd=self.cmd.path)
         except Exception, e:
             self.log.error('Could not retire package: %s' % e)
             sys.exit(1)
-        if self.args.push:
-            self.push()
 
     def tagrequest(self):
         self.cmd.tracbaseurl = self.cmd.get('fedpkg', 'tracbaseurl', raw=True)
