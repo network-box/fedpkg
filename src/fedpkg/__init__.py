@@ -74,11 +74,21 @@ class Commands(pyrpkg.Commands):
                                  dist, target, quiet)
 
         # New data
-        self.secondary_arch = {'ppc': ['ppc64-utils', 'yaboot',
-                                       'powerpc-utils', 'powerpc-utils-papr',
-                                       'libvpd', 'lsvpd'],
-                               'arm': ['xorg-x11-drv-omapfb'],
-                               's390': ['s390utils', 'openssl-ibmca', 'libica']}
+        self.secondary_arch = {
+            'ppc': [
+                'apmud',
+                'libbsr',
+                'librtas',
+                'libservicelog',
+                'libvpd',
+                'lsvpd',
+                'powerpc-utils',
+                'powerpc-utils-papr',
+                'ppc64-utils',
+                'yaboot',
+            ], 'arm': ['xorg-x11-drv-omapfb'],
+               's390': ['s390utils', 'openssl-ibmca', 'libica']
+        }
 
         # New properties
         self._kojiconfig = None
