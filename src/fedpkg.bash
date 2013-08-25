@@ -278,7 +278,7 @@ _fedpkg_target()
 
 _fedpkg_arch()
 {
-    echo "i386 x86_64 ppc ppc64 s390 s390x sparc sparc64"
+    echo "i386 x86_64 arm7hl ppc ppc64 s390 s390x sparc sparc64"
 }
 
 _fedpkg_branch()
