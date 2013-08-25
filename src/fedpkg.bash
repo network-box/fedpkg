@@ -168,7 +168,6 @@ _fedpkg()
             options="--rebase --no-rebase"
             ;;
         retire)
-            options="--push"
             after_more=true
             ;;
         scratch-build)
