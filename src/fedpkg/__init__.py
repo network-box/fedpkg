@@ -195,13 +195,13 @@ class Commands(pyrpkg.Commands):
                             "--define '_rpmdir %s'" % self.path,
                             "--define 'dist .%s'" % self.dist,
                             "--define '%s %s'" % (self._distvar, self._distval),
-                            "--define '%s %%{nil}'" % self._distunset,
+                            "--eval '%%undefine %s'" % self._distunset,
                             "--define '%s 1'" % self.dist]
         if self._runtime_disttag:
             if self.dist != self._runtime_disttag:
                 # This means that the runtime is known, and is different from
                 # the target, so we need to unset the _runtime_disttag
-                self._rpmdefines.append("--define '%s %%{nil}'" %
+                self._rpmdefines.append("--eval '%%undefine %s'" %
                                         self._runtime_disttag)
 
     def load_target(self):
