@@ -2,7 +2,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
 
 Name:           fedpkg
-Version:        1.13
+Version:        1.14
 Release:        1%{?dist}
 Summary:        Fedora utility for working with dist-git
 
@@ -65,6 +65,15 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Aug 26 2013 Dennis Gilmore <dennis@ausil.us> - 1.14-1
+- clean up arches in fedpkg bash completeion - drop sparc - add i686 - add arm
+  variants - add ppc64p7 (dennis)
+- Add arm7hl to bash completion arches (opensource)
+- Add more ppc64-only packages (opensource)
+- remove --push from retire command in bash completion (opensource)
+- undefine macros rather than define as nil (dennis)
+
+
 * Sat Aug 24 2013 Dennis Gilmore <dennis@ausil.us> - 1.13-1
 - Rework --retire (opensource)
 
