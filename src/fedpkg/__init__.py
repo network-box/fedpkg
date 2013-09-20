@@ -228,7 +228,7 @@ class Commands(pyrpkg.Commands):
             self._user = fedora_cert.read_user_cert()
         except Exception, e:
             self.log.debug('Could not read Fedora cert, falling back to '
-                           'default method: ' % e)
+                           'default method: %s' % e)
             super(Commands, self).load_user()
 
     # Other overloaded functions
