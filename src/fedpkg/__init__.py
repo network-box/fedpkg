@@ -169,15 +169,15 @@ class Commands(pyrpkg.Commands):
             self._distvar = 'fedora'
             self.dist = 'fc%s' % self._distval
             self.mockconfig = 'fedora-%s-%s' % (self._distval, self.localarch)
-            self.override = 'dist-f%s-override' % self._distval
+            self.override = 'f%s-override' % self._distval
             self._distunset = 'rhel'
         # Works until RHEL 10
-        elif re.match(r'el\d$', self.branch_merge):
+        elif re.match(r'el\d$', self.branch_merge) or re.match(r'epel\d$', self.branch_merge):
             self._distval = self.branch_merge.split('el')[1]
             self._distvar = 'rhel'
             self.dist = 'el%s' % self._distval
             self.mockconfig = 'epel-%s-%s' % (self._distval, self.localarch)
-            self.override = 'dist-%sE-epel-override' % self._distval
+            self.override = 'epel%s-override' % self._distval
             self._distunset = 'fedora'
         elif re.match(r'olpc\d$', self.branch_merge):
             self._distval = self.branch_merge.split('olpc')[1]
