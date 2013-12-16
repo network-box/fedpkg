@@ -125,6 +125,20 @@ class fedpkgClient(cliClient):
             print('Could not request a tag release: %s' % e)
             sys.exit(1)
 
+    def _format_update_clog(self, clog):
+        ''' Format clog for the update template. '''
+        lines = [l for l in clog.split('\n') if l]
+        if len(lines) == 0:
+            return "- Rebuilt.", ""
+        elif len(lines) == 1:
+            return lines[0], ""
+        log = ["# Changelog:"]
+        log.append('# - ' + lines[0])
+        for l in lines[1:]:
+            log.append('# ' + l)
+        log.append('#')
+        return lines[0], "\n".join(log)
+
     def update(self):
         template = """\
 [ %(nvr)s ]
@@ -138,8 +152,9 @@ request=testing
 # Bug numbers: 1234,9876
 bugs=%(bugs)s
 
-# Description of your update
-notes=Here is where you give an explanation of your update.
+%(changelog)s
+# Here is where you give an explanation of your update.
+notes=%(descr)s
 
 # Enable request automation based on the stable/unstable karma thresholds
 autokarma=True
@@ -153,7 +168,10 @@ close_bugs=True
 suggest_reboot=False
 """
 
-        bodhi_args = {'nvr': self.cmd.nvr, 'bugs': ''}
+        bodhi_args = {'nvr': self.cmd.nvr,
+                      'bugs': '',
+                      'descr': 'Here is where you give an explanation'
+                               ' of your update.'}
 
         # Extract bug numbers from the latest changelog entry
         self.cmd.clog()
@@ -161,6 +179,10 @@ suggest_reboot=False
         bugs = re.findall(r'#([0-9]*)', clog)
         if bugs:
             bodhi_args['bugs'] = ','.join(bugs)
+
+        # Use clog as default message
+        bodhi_args['descr'], bodhi_args['changelog']= \
+           self._format_update_clog(clog)
 
         template = textwrap.dedent(template) % bodhi_args
 
